@@ -141,3 +141,6 @@ logs/
 test.py
 .vscode
 scratch.py
+scratch_runner.py
+scratch_scheduler.py
+.DS_Store

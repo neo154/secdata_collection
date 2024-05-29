@@ -1,8 +1,8 @@
 """api_requests.py
 
 Author: neo154
-Version: 0.1.0
-Date Modified: 2024-02-05
+Version: 0.1.1
+Date Modified: 2024-04-09
 
 This is the module that is responsible for wrapping and handling api requests from the various
 modules and can handle the repsonses to get the returns or raw return data
@@ -156,7 +156,7 @@ def get_ordered_storage_names(storage_loc: StorageLocation, file_pattern: str,
     return dict(sorted(file_dict.items()))
 
 def get_resume_info(storage_loc: StorageLocation, file_pattern: str, file_prefix: str,
-        resume_callback: _ResumeRequestsCallback) -> Union[Tuple[int, Any], None]:
+        resume_callback: _ResumeRequestsCallback, **kwrags) -> Union[Tuple[int, ...], None]:
     """
     Gets resuming information from request file callbacks that are used to get necessary info
     for the next request. Gives back information for indexer and any other required info for
@@ -172,7 +172,7 @@ def get_resume_info(storage_loc: StorageLocation, file_pattern: str, file_prefix
     prev_value = ()
     for index, storage_item in ordered_files.items():
         try:
-            prev_value = (index, resume_callback(storage_item))
+            prev_value = (index, resume_callback(storage_item, **kwrags))
         except:  # pylint:disable=bare-except
             # This triggers if a file has been corrupted giving info on the last request
             return prev_value
